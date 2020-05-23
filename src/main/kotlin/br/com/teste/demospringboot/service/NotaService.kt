@@ -37,8 +37,7 @@ class NotaService {
             return repository.save(safeNps)
         }
 
-        return Nota();
-
+        return Nota()
     }
 
     fun delete(@PathVariable id: Long) {

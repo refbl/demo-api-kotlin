@@ -3,7 +3,12 @@ package br.com.teste.demospringboot.controller
 import br.com.teste.demospringboot.model.Nota
 import br.com.teste.demospringboot.service.NotaService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
+
 
 @RestController
 @RequestMapping("nps")
@@ -13,12 +18,15 @@ class NotaController {
     lateinit var service: NotaService
 
     @GetMapping
-    fun listar(): List<Nota>{
-        return service.listar()
+    fun listar(): HttpEntity<List<Nota>> {
+        val responseHeaders = HttpHeaders()
+        //responseHeaders.set("notas", service.listar())
+        responseHeaders.contentType = MediaType.APPLICATION_JSON
+        return HttpEntity(service.listar(), responseHeaders)
     }
 
     @PostMapping
-    fun adicionar (@RequestBody nota: Nota): Nota{
+    fun adicionar (@Valid @RequestBody nota: Nota): Nota{
         return service.adicionar(nota)
     }
 
